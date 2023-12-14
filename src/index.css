@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  direction: rtl;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+}
+
+@layer components {
+  .input {
+    @apply rounded-md border outline-none  md:px-5;
+  }
+  .button {
+    @apply rounded-md bg-primary dark:bg-primary-dark text-white   px-6 py-2 md:px-8 transition-all hover:bg-hover hover:dark:bg-hover-dark;
+  }
+  .navbarButton {
+    @apply text transition-all hover:underline hover:text-hover hover:dark:text-hover-dark;
+  }
+}
+
+@layer base {
+  .bg {
+    @apply bg-white transition-colors dark:bg-black;
+  }
+  .text {
+    @apply text-primary transition-colors  dark:text-primary-dark;
+  }
+  .title {
+    @apply text-base md:text-xl;
+  }
+}
