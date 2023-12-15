@@ -16,9 +16,15 @@ export const validation = z.object({
     .max(12, "ניק ניים צריך להכיל עד שניים עשר תווים"),
 });
 
-export const login = z.object({
+export const loginValidation = z.object({
   email: z.string().email("איימל לא תקין"),
 });
 
+export const otpValidation = z.object({
+  email: z.string().email("איימל לא תקין"),
+  otp: z.string().length(4, "סיסמא לא תקינה"),
+});
+
 export type SchemaValidation = z.infer<typeof validation>;
-export type LoginValidation = z.infer<typeof login>;
+export type LoginValidation = z.infer<typeof loginValidation>;
+export type OtpValidation = z.infer<typeof otpValidation>;

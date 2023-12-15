@@ -1,46 +1,47 @@
 import { FormEvent, useState } from "react";
-import {
-  LoginValidation,
-  SchemaValidation,
-  validation,
-} from "../../models/validation";
+import { LoginValidation, loginValidation } from "../../models/validation";
 import { login } from "../../services/user";
 import { useModal } from "../../context/ModalContext";
-import { useUser } from "../../context/UserContext";
+import { RegisterForm } from "./RegisterForm";
+import { OtpForm } from "./OtpForm";
 
 export function SignInForm() {
-  const { closeModal } = useModal();
-  const { updateToken } = useUser();
+  const { closeModal, openModal } = useModal();
   const [formData] = useState<LoginValidation>({
     email: "",
   });
-  const [error, setError] = useState<Partial<SchemaValidation>>({});
+  const [error, setError] = useState<Partial<LoginValidation>>({});
 
   function handelSubmit(e: FormEvent) {
     e.preventDefault();
-    const response = validation.safeParse(formData);
+    const response = loginValidation.safeParse(formData);
     if (!response.success) {
       const rawError = response.error.format();
       setError((errorMessage) => {
         errorMessage = {};
         for (const keyObject in formData) {
-          const key = keyObject as keyof SchemaValidation;
+          const key = keyObject as keyof LoginValidation;
           errorMessage[key] = rawError[key]?._errors[0];
         }
         return errorMessage;
       });
     }
-    if (response.success) {
-      loginForm();
-      closeModal();
-    }
+
+    loginForm();
   }
 
   async function loginForm() {
     const token = await login({
       email: formData.email,
     });
-    if (token !== null) updateToken(token);
+
+    closeModal();
+    if (token) {
+      openModal(<OtpForm />);
+    }
+    if (token === null) {
+      openModal(<RegisterForm />);
+    }
   }
 
   return (
