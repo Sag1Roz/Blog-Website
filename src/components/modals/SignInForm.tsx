@@ -6,9 +6,11 @@ import {
 } from "../../models/validation";
 import { login } from "../../services/user";
 import { useModal } from "../../context/ModalContext";
+import { useUser } from "../../context/UserContext";
 
 export function SignInForm() {
   const { closeModal } = useModal();
+  const { updateToken } = useUser();
   const [formData] = useState<LoginValidation>({
     email: "",
   });
@@ -35,9 +37,10 @@ export function SignInForm() {
   }
 
   async function loginForm() {
-    login({
+    const token = await login({
       email: formData.email,
     });
+    if (token !== null) updateToken(token);
   }
 
   return (

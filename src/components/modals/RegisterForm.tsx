@@ -2,9 +2,11 @@ import { FormEvent, useState } from "react";
 import { SchemaValidation, validation } from "../../models/validation";
 import { register } from "../../services/user";
 import { useModal } from "../../context/ModalContext";
+import { useUser } from "../../context/UserContext";
 
 export function RegisterForm() {
   const { closeModal } = useModal();
+  const { updateToken } = useUser();
   const [formData] = useState<SchemaValidation>({
     firstName: "",
     lastName: "",
@@ -29,18 +31,19 @@ export function RegisterForm() {
     }
 
     if (response.success) {
-      console.log(registerForm());
+      registerForm();
       closeModal();
     }
   }
 
   async function registerForm() {
-    register({
+    const token = await register({
       email: formData.email,
       firstName: formData.firstName,
       lastName: formData.lastName,
       nickname: formData.nikName,
     });
+    if (token !== null) updateToken(token);
   }
 
   return (
