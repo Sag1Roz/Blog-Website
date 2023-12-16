@@ -44,6 +44,7 @@ export function UserContextProvider({ children }: { children: ReactNode }) {
 
   function logout() {
     setUser(null);
+    setToken("");
     localStorage.removeItem("Rozi-token");
   }
 

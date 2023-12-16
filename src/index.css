@@ -17,6 +17,9 @@
   .navbarButton {
     @apply text transition-all hover:underline hover:text-hover hover:dark:text-hover-dark;
   }
+  .settingBox {
+    @apply border border-primary px-9 py-16 justify-center flex items-center;
+  }
 }
 
 @layer base {
