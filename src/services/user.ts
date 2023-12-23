@@ -55,3 +55,19 @@ export async function verifyCode(body: { email: string; otp: string }) {
     return null;
   }
 }
+
+export async function updateUser(body: {
+  firstName: string;
+  lastName: string;
+  email: string;
+  nickname: string;
+}) {
+  try {
+    const { data } = await axios.put(`${url}user/update-user `, { ...body });
+    if (!data.status) throw data.error;
+
+    return data.token as string;
+  } catch (error) {
+    return null;
+  }
+}
